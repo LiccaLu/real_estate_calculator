@@ -420,3 +420,54 @@ with tabs[4]:
 
     st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
+
+
+with tabs[5]:
+    st.header("🏠 新青安2.0 利率換算")
+
+    loan = st.number_input(
+        "貸款金額（萬）",
+        min_value=0.0,
+        value=1000.0,
+        step=10.0,
+        key="new_qingan_loan"
+    )
+
+    years = st.selectbox(
+        "貸款年限",
+        [20, 25, 30, 35, 40],
+        index=4,
+        key="new_qingan_years"
+    )
+
+    rate_table = [
+        ("第1年", "2碼", 1.775),
+        ("第2年", "2碼", 1.775),
+        ("第3年", "2碼", 1.775),
+        ("第4年", "1.5碼", 1.900),
+        ("第5年", "1碼", 2.025),
+        ("第6年", "0.5碼", 2.150),
+        ("第7年起", "0碼", 2.275),
+    ]
+
+    rows = []
+
+    for year, code, rate_new in rate_table:
+        monthly = loan_monthly_payment(
+            loan,
+            rate_new,
+            years
+        )
+
+        rows.append({
+            "貸款年度": year,
+            "補貼碼數": code,
+            "優惠利率": f"{rate_new:.3f}%",
+            "每月月付": f"${monthly:,.0f}"
+        })
+
+    st.dataframe(
+        rows,
+        hide_index=True,
+        use_container_width=True
+    )
