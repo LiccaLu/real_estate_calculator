@@ -150,9 +150,9 @@ def loan_possible_by_monthly(monthly, annual_rate, years):
 # ========= Header =========
 st.markdown("""
 <div class="title-box">
-    <div class="logo">🐱🏠</div>
+    <div class="logo">🏆🏠</div>
     <div>
-        <div class="title-text">中壢專業房仲喵爸 房產計算機</div>
+        <div class="title-text">中壢專業房仲Jhen 房產計算機</div>
         <div class="sub-text">房貸、購屋能力、坪數、車位拆算、賣方實拿速算</div>
     </div>
 </div>
