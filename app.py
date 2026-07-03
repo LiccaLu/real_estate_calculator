@@ -190,6 +190,42 @@ with tabs[0]:
     c1.metric("每月應繳", nt(monthly))
     c2.metric("總還款金額", nt(total_pay))
     c3.metric("總利息", nt(total_interest))
+    st.divider()
+    
+    st.subheader("🏠 新青安2.0 利率換算")
+
+    rate_table = [
+    ("第1年", "2碼", 1.775),
+    ("第2年", "2碼", 1.775),
+    ("第3年", "2碼", 1.775),
+    ("第4年", "1.5碼", 1.900),
+    ("第5年", "1碼", 2.025),
+    ("第6年", "0.5碼", 2.150),
+    ("第7年起", "0碼", 2.275),
+    ]
+
+    rows = []
+
+for year, code, rate_new in rate_table:
+
+    monthly = loan_monthly_payment(
+        loan,
+        rate_new,
+        years
+    )
+
+    rows.append({
+        "貸款年度": year,
+        "補貼碼數": code,
+        "優惠利率": f"{rate_new:.3f}%",
+        "每月月付": f"${monthly:,.0f}"
+    })
+
+st.dataframe(
+    rows,
+    hide_index=True,
+    use_container_width=True
+)
 
     st.markdown('<div class="info-box">', unsafe_allow_html=True)
     st.write(f"貸款 {money(loan)}，利率 {rate:.2f}%，{years} 年期，每月約繳 **{nt(monthly)}**。")
