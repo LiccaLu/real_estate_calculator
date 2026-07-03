@@ -190,11 +190,17 @@ with tabs[0]:
     c1.metric("每月應繳", nt(monthly))
     c2.metric("總還款金額", nt(total_pay))
     c3.metric("總利息", nt(total_interest))
+
+    st.markdown('<div class="info-box">', unsafe_allow_html=True)
+    st.write(f"貸款 {money(loan)}，利率 {rate:.2f}%，{years} 年期，每月約繳 **{nt(monthly)}**。")
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
     st.divider()
     
-    st.subheader("🏠 新青安2.0 利率換算")
+st.subheader("🏠 新青安2.0 利率換算")
 
-    rate_table = [
+rate_table = [
     ("第1年", "2碼", 1.775),
     ("第2年", "2碼", 1.775),
     ("第3年", "2碼", 1.775),
@@ -202,9 +208,9 @@ with tabs[0]:
     ("第5年", "1碼", 2.025),
     ("第6年", "0.5碼", 2.150),
     ("第7年起", "0碼", 2.275),
-    ]
+]
 
-    rows = []
+rows = []
 
 for year, code, rate_new in rate_table:
 
@@ -226,11 +232,6 @@ st.dataframe(
     hide_index=True,
     use_container_width=True
 )
-
-    st.markdown('<div class="info-box">', unsafe_allow_html=True)
-    st.write(f"貸款 {money(loan)}，利率 {rate:.2f}%，{years} 年期，每月約繳 **{nt(monthly)}**。")
-    st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ========= 購屋能力 =========
