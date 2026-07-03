@@ -164,7 +164,8 @@ tabs = st.tabs([
     "💼 購屋能力",
     "📐 坪數換算",
     "🚗 車位拆算",
-    "💰 賣方實拿"
+    "💰 賣方實拿",
+    "新青安2.0"
 ])
 
 
@@ -421,53 +422,87 @@ with tabs[4]:
     st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-
+# ========= 新青安2.0 =========
 with tabs[5]:
-    st.header("🏠 新青安2.0 利率換算")
 
-    loan = st.number_input(
-        "貸款金額（萬）",
-        min_value=0.0,
-        value=1000.0,
-        step=10.0,
-        key="new_qingan_loan"
+    st.markdown('<div class="main-card">', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-title">新青安2.0 利率換算</div>',
+        unsafe_allow_html=True
     )
 
-    years = st.selectbox(
-        "貸款年限",
-        [20, 25, 30, 35, 40],
-        index=4,
-        key="new_qingan_years"
-    )
+    st.caption("依新青安2.0補貼碼數，自動換算每年優惠利率與每月月付。")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        loan = st.number_input(
+            "貸款金額（萬）",
+            min_value=0.0,
+            value=1000.0,
+            step=10.0,
+            key="newloan"
+        )
+
+    with col2:
+        years = st.selectbox(
+            "貸款年限",
+            [20,30,40],
+            index=2,
+            key="newyears"
+        )
 
     rate_table = [
-        ("第1年", "2碼", 1.775),
-        ("第2年", "2碼", 1.775),
-        ("第3年", "2碼", 1.775),
-        ("第4年", "1.5碼", 1.900),
-        ("第5年", "1碼", 2.025),
-        ("第6年", "0.5碼", 2.150),
-        ("第7年起", "0碼", 2.275),
+        ("第1年","2碼",1.775),
+        ("第2年","2碼",1.775),
+        ("第3年","2碼",1.775),
+        ("第4年","1.5碼",1.900),
+        ("第5年","1碼",2.025),
+        ("第6年","0.5碼",2.150),
+        ("第7年起","0碼",2.275),
     ]
 
-    rows = []
+    st.markdown("---")
 
-    for year, code, rate_new in rate_table:
+    for year, code, rate in rate_table:
+
         monthly = loan_monthly_payment(
             loan,
-            rate_new,
+            rate,
             years
         )
 
-        rows.append({
-            "貸款年度": year,
-            "補貼碼數": code,
-            "優惠利率": f"{rate_new:.3f}%",
-            "每月月付": f"${monthly:,.0f}"
-        })
+        st.markdown(f"""
+        <div style="
+            background:white;
+            border-radius:14px;
+            padding:18px;
+            margin-bottom:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,.08);
+            border-left:6px solid #caa548;
+        ">
+        <h4 style="margin:0;">{year}</h4>
 
-    st.dataframe(
-        rows,
-        hide_index=True,
-        use_container_width=True
-    )
+        <div style="margin-top:10px;font-size:18px;">
+        🏷️ <b>補貼：</b>{code}<br>
+        📈 <b>優惠利率：</b>{rate:.3f}%<br>
+        💰 <b>每月月付：</b>{monthly:,.0f} 元
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.info("""
+📌 新青安2.0補貼碼數
+
+第1~3年：2碼（約1.775%）
+
+第4年：1.5碼（約1.900%）
+
+第5年：1碼（約2.025%）
+
+第6年：0.5碼（約2.150%）
+
+第7年起：恢復原利率（約2.275%）
+""")
+
+    st.markdown("</div>", unsafe_allow_html=True)
